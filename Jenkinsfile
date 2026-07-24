@@ -3,7 +3,9 @@ pipeline {
 
     stages {
         stage('PR Only Check') {
-            echo hi
+            steps {
+                sh 'echo "hi"'
+            }
         }
     }
     post {
