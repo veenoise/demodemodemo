@@ -10,7 +10,7 @@ pipeline {
     }
     post {
         always {
-            sh 'echo -e "BRANCH_NAME: ${BRANCH_NAME}\nBUILD_NUMBER: ${BUILD_NUMBER}"'
+            sh 'echo -e "BRANCH_NAME: ${CHANGE_BRANCH}\nBUILD_NUMBER: ${BUILD_NUMBER}"'
         }
     }
 }
