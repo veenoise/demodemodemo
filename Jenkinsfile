@@ -5,6 +5,7 @@ pipeline {
         stage('PR Only Check') {
             steps {
                 sh 'echo "hi"'
+                sh 'echo "hello"'
             }
         }
     }
