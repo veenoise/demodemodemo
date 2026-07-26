@@ -23,7 +23,7 @@ pipeline {
             }
         }
     }
-        stages {
+    stages {
         stage('Check If It Will Proceed On Failure') {
             steps {
                 sh 'echo this was triggered!!!'
