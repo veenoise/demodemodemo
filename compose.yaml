@@ -1,0 +1,44 @@
+services:
+  infisical:
+    container_name: infisical
+    image: infisical/cli:latest
+    env_file:
+      - .env
+    entrypoint: |
+      sh -c '''
+        echo ${INFISICAL_UNIVERSAL_AUTH_CLIENT_ID} > /tmp/client-id
+        echo ${INFISICAL_UNIVERSAL_AUTH_CLIENT_SECRET} > /tmp/client-secret
+        infisical agent
+      '''
+    healthcheck:
+      test: ["CMD-SHELL", "sh -c 'infisical agent --help'"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 0s
+    volumes:
+      - 'infisical:/infisical-agent/'
+  demodemodemo:
+    pull_policy: never
+    depends_on:
+      infisical:
+        condition: service_completed_successfully
+    container_name: demodemodemo
+    build: .
+    image: localhost/demodemodemo:develop
+    ports:
+      - '3000:3000'
+    healthcheck:
+      test: ["CMD-SHELL", "bash -c 'exec 3<>/dev/tcp/127.0.0.1/3000'"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 0s
+    volumes:
+      - 'infisical:/infisical-agent/:ro'
+    entrypoint: |
+      sh -c '''
+        node --env-file /infisical-agent/.env server.js
+      '''
+volumes:
+  infisical:
