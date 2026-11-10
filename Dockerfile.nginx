@@ -1,0 +1,7 @@
+FROM nginxinc/nginx-unprivileged:stable-alpine3.24-perl@sha256:6b07d2acfcbf3e5bc8e786d224bd687cf89f92d5f00647a7ed7affdf7d4541c8
+
+COPY ./nginx.conf /etc/nginx/conf.d/default.conf
+
+USER nginx
+
+CMD ["nginx", "-g", "daemon off;"]

@@ -1,0 +1,20 @@
+infisical:
+  address: "https://app.infisical.com"
+  exit-after-auth: true
+auth:
+  type: "universal-auth"
+  config:
+    client-id: /tmp/client-id
+    client-secret: /tmp/client-secret
+sinks:
+  - type: file
+    config:
+      path: /infisical-agent/access-token
+templates:
+  - template-content: |
+      {{- with secret "548c7d24-7753-4370-ab99-5f3f500ef48b" "dev" "/" }}
+      {{- range . }}
+      {{ .Key }}={{ .Value }}
+      {{- end }}
+      {{- end }}
+    destination-path: /infisical-agent/.env
